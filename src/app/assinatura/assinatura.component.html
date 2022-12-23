@@ -5,9 +5,17 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="https://mail.google.com/a/mail.uft.edu.br">Link 1</a>
-      <a mat-list-item href="https://ww2.uft.edu.br/index.php/sucom/padrao-de-documentos">Link 2</a>
-      <a mat-list-item href="https://download.uft.edu.br/?d=bad52849-d7d1-434d-8e78-63b5584c93ef;1.0:IN%2003_2016%20-%20Dicom%20-%20Assinatura%20de%20E-mail%20Padr%C3%A3o%20@uft%20(1).docx">Link 3</a>
+      <a mat-list-item href="https://ww2.uft.edu.br/index.php/sucom/padrao-de-documentos" target="_blank">
+        <span matListItemTitle>Padrão de Documentos - UFT</span>
+      </a>
+      <a mat-list-item href="https://download.uft.edu.br/?d=bad52849-d7d1-434d-8e78-63b5584c93ef;1.0:IN%2003_2016%20-%20Dicom%20-%20Assinatura%20de%20E-mail%20Padr%C3%A3o%20@uft%20(1).docx" target="_blank">
+        <span matListItemTitle>IN 03/2016 - DICOM</span>
+        <span matListItemLine>Instrução Normativa n° 03/2016 - DICOM</span>
+      </a>
+      <a mat-list-item href="https://mail.google.com/a/mail.uft.edu.br" target="_blank">
+        <span matListItemTitle>Webmail</span>
+        <span matListItemLine>webmail.uft.edu.br</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -20,19 +28,27 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>assinatura-uft</span>
+      <span>Assinatura de e-mail institucional UFT</span>
     </mat-toolbar>
     <div class="content">
       <form>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Tipo de assinatura</mat-label>
+          <mat-select [(value)]="tipo_assinatura">
+            <mat-option value="individual">Individual</mat-option>
+            <mat-option value="setorial">Setorial</mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <mat-form-field class="full-width">
           <mat-label>Linha principal</mat-label>
-          <input matInput #var1 />
+          <input matInput #var1 [placeholder]="(tipo_assinatura == 'setorial') ? 'Nome do Setor por Extenso (XXX / Xxxx)' : 'Nome Completo'" />
         </mat-form-field>
       
         <p>
           <mat-form-field class="full-width">
             <mat-label>Linhas secundárias</mat-label>
-            <textarea matInput #var2 rows="4"></textarea>
+            <textarea matInput #var2 rows="4" [placeholder]="(tipo_assinatura == 'setorial') ? 'Nome do Sub-Setor ou do Supra-Setor (XXX / Xxxx)' : 'Cargo / função\nNome do Setor por Extenso (XXX / Xxxx)\nNome do Sub-Setor ou do Supra-Setor (XXX / Xxxx)'"></textarea>
           </mat-form-field>
         </p>
       
@@ -44,33 +60,40 @@
         </mat-form-field>
         <mat-form-field class="full-width">
           <mat-label>Fone principal</mat-label>
-          <input matInput #teste2 placeholder="Ex. 0000-0000" />
+          <input matInput #teste2 placeholder="+55 63 0000-0000" />
         </mat-form-field>
         <mat-form-field class="full-width">
           <mat-label>Fone secundário</mat-label>
-          <input matInput #teste3 placeholder="Ex. 0000-0000" />
+          <input matInput #teste3 placeholder="+55 63 0000-0000" />
         </mat-form-field>
       </form>
+      <button mat-flat-button color="primary" class="full-width" (click)="copiarAssinatura()">
+        <mat-icon>content_copy</mat-icon>
+        <span>Copiar assinatura</span>
+      </button>
 
       <hr />
-      <br />
 
-      <table width="auto" cellspacing="0" cellpadding="4" style="font: small/1.5 Arial,Helvetica,sans-serif;background-color: inherit;">
-          <tbody>
-              <tr>
-                  <td width="121" valign="top" style="border:none;padding:0cm;text-align:center;vertical-align:middle">
-                      <img src="http://docs.uft.edu.br/share/proxy/alfresco-noauth/api/internal/shared/node/CyCn0-KpTCyWT5x_P-qHvQ/content/marcaUFT_vertical_fundotransparente_RGB.png" height="65">
-                  </td>
-                  <td width="auto" style="border-top:none;border-bottom:none;border-left:1px solid rgb(0,0,0);border-right:none;padding:0 0 0 10px">
-                      <b>{{ var1.value }}</b>
-                      <br><span style="white-space: pre-wrap;">{{ var2.value }}</span>
-                      <br><a href="http://{{var3.value}}" style="color:rgb(17,85,204)" target="_blank">{{var3.value}}</a>
-                      <ng-container *ngIf="(teste2.value != '' ? ' | ' + teste2.value : '') as teste4">{{ teste4 }}</ng-container>
-                      <ng-container *ngIf="(teste3.value != '' ? ' | ' + teste3.value : '') as teste5">{{ teste5 }}</ng-container>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
+      <div id="assinatura">
+        <br />
+        <table width="auto" cellspacing="0" cellpadding="4" style="font: small/1.5 Arial,Helvetica,sans-serif;background-color: inherit;">
+            <tbody>
+                <tr>
+                    <td width="121" valign="top" style="border:none;padding:0cm;text-align:center;vertical-align:middle">
+                        <img src="http://docs.uft.edu.br/share/proxy/alfresco-noauth/api/internal/shared/node/CyCn0-KpTCyWT5x_P-qHvQ/content/marcaUFT_vertical_fundotransparente_RGB.png" height="65">
+                    </td>
+                    <td width="auto" style="border-top:none;border-bottom:none;border-left:1px solid rgb(0,0,0);border-right:none;padding:0 0 0 10px">
+                        <b>{{ var1.value }}</b>
+                        <br /><span style="white-space: pre-wrap;">{{ var2.value }}</span>
+                        <br /><a href="https://{{var3.value}}" style="color:rgb(17,85,204)" target="_blank">{{var3.value}}</a>
+                        <ng-container *ngIf="tipo_assinatura == 'setorial'"><br /></ng-container>
+                        <ng-container *ngIf="(teste2.value != '' ? (tipo_assinatura != 'setorial' ? ' | ' : '') + teste2.value : '') as teste4">{{ teste4 }}</ng-container>
+                        <ng-container *ngIf="(teste3.value != '' ? ' | ' + teste3.value : '') as teste5">{{ teste5 }}</ng-container>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -18,4 +18,16 @@ export class AssinaturaComponent {
 
   constructor(private breakpointObserver: BreakpointObserver) {}
 
+  tipo_assinatura = 'individual';
+
+  copiarAssinatura() {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      let assinatura = document.getElementById("assinatura")?.innerHTML;
+      e.clipboardData?.setData('text/html', (assinatura!));
+      e.preventDefault();
+      document.removeEventListener('copy', null!);
+    });
+    document.execCommand('copy');
+  }
+
 }
