@@ -34,7 +34,7 @@
       <form>
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Tipo de assinatura</mat-label>
-          <mat-select [(value)]="tipo_assinatura">
+          <mat-select [(value)]="assinatura_tipo">
             <mat-option value="individual">Individual</mat-option>
             <mat-option value="setorial">Setorial</mat-option>
           </mat-select>
@@ -42,29 +42,29 @@
 
         <mat-form-field class="full-width">
           <mat-label>Linha principal</mat-label>
-          <input matInput #var1 [placeholder]="(tipo_assinatura == 'setorial') ? 'Nome do Setor por Extenso (XXX / Xxxx)' : 'Nome Completo'" />
+          <input matInput #assinatura_linhaPrincipal [placeholder]="(assinatura_tipo == 'setorial') ? 'Nome do Setor por Extenso (XXX / Xxxx)' : 'Nome Completo'" />
         </mat-form-field>
       
         <p>
           <mat-form-field class="full-width">
             <mat-label>Linhas secundárias</mat-label>
-            <textarea matInput #var2 rows="4" [placeholder]="(tipo_assinatura == 'setorial') ? 'Nome do Sub-Setor ou do Supra-Setor (XXX / Xxxx)' : 'Cargo / função\nNome do Setor por Extenso (XXX / Xxxx)\nNome do Sub-Setor ou do Supra-Setor (XXX / Xxxx)'"></textarea>
+            <textarea matInput #assinatura_linhasSecundarias rows="4" [placeholder]="(assinatura_tipo == 'setorial') ? 'Nome do Sub-Setor ou do Supra-Setor (XXX / Xxxx)' : 'Cargo / função\nNome do Setor por Extenso (XXX / Xxxx)\nNome do Sub-Setor ou do Supra-Setor (XXX / Xxxx)'"></textarea>
           </mat-form-field>
         </p>
       
         <mat-form-field class="full-width">
           <mat-label>Endereço institucional</mat-label>
-          <input matInput #var3 value="www.uft.edu.br" />
-          <mat-hint><a href="https://{{var3.value}}" target="_blank">Clique aqui para testar o link</a></mat-hint>
+          <input matInput #assinatura_endereco value="www.uft.edu.br" />
+          <mat-hint><a href="https://{{assinatura_endereco.value}}" target="_blank">Clique aqui para testar o link</a></mat-hint>
           <span matTextPrefix>https://</span>
         </mat-form-field>
         <mat-form-field class="full-width">
-          <mat-label>Fone principal</mat-label>
-          <input matInput #teste2 placeholder="+55 63 0000-0000" />
+          <mat-label>Telefone principal</mat-label>
+          <input matInput #assinatura_telefonePrincipal placeholder="+55 63 0000-0000" />
         </mat-form-field>
         <mat-form-field class="full-width">
-          <mat-label>Fone secundário</mat-label>
-          <input matInput #teste3 placeholder="+55 63 0000-0000" />
+          <mat-label>Telefone secundário</mat-label>
+          <input matInput #assinatura_telefoneSecundario placeholder="+55 63 0000-0000" />
         </mat-form-field>
       </form>
       <button mat-flat-button color="primary" class="full-width" (click)="copiarAssinatura()">
@@ -83,12 +83,12 @@
                         <img src="http://docs.uft.edu.br/share/proxy/alfresco-noauth/api/internal/shared/node/CyCn0-KpTCyWT5x_P-qHvQ/content/marcaUFT_vertical_fundotransparente_RGB.png" height="65">
                     </td>
                     <td width="auto" style="border-top:none;border-bottom:none;border-left:1px solid rgb(0,0,0);border-right:none;padding:0 0 0 10px">
-                        <b>{{ var1.value }}</b>
-                        <br /><span style="white-space: pre-wrap;">{{ var2.value }}</span>
-                        <br /><a href="https://{{var3.value}}" style="color:rgb(17,85,204)" target="_blank">{{var3.value}}</a>
-                        <ng-container *ngIf="tipo_assinatura == 'setorial'"><br /></ng-container>
-                        <ng-container *ngIf="(teste2.value != '' ? (tipo_assinatura != 'setorial' ? ' | ' : '') + teste2.value : '') as teste4">{{ teste4 }}</ng-container>
-                        <ng-container *ngIf="(teste3.value != '' ? ' | ' + teste3.value : '') as teste5">{{ teste5 }}</ng-container>
+                        <b>{{ assinatura_linhaPrincipal.value }}</b>
+                        <br /><span style="white-space: pre-wrap;">{{ assinatura_linhasSecundarias.value }}</span>
+                        <br /><a href="https://{{assinatura_endereco.value}}" style="color:rgb(17,85,204)" target="_blank">{{assinatura_endereco.value}}</a>
+                        <ng-container *ngIf="assinatura_tipo == 'setorial'"><br /></ng-container>
+                        <ng-container *ngIf="(assinatura_telefonePrincipal.value != '' ? (assinatura_tipo != 'setorial' ? ' | ' : '') + assinatura_telefonePrincipal.value : '') as temp_telefonePrincipal">{{ temp_telefonePrincipal }}</ng-container>
+                        <ng-container *ngIf="(assinatura_telefoneSecundario.value != '' ? ' | ' + assinatura_telefoneSecundario.value : '') as temp_telefoneSecundario">{{ temp_telefoneSecundario }}</ng-container>
                     </td>
                 </tr>
             </tbody>
