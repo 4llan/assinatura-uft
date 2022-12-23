@@ -1,0 +1,76 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item href="https://mail.google.com/a/mail.uft.edu.br">Link 1</a>
+      <a mat-list-item href="https://ww2.uft.edu.br/index.php/sucom/padrao-de-documentos">Link 2</a>
+      <a mat-list-item href="https://download.uft.edu.br/?d=bad52849-d7d1-434d-8e78-63b5584c93ef;1.0:IN%2003_2016%20-%20Dicom%20-%20Assinatura%20de%20E-mail%20Padr%C3%A3o%20@uft%20(1).docx">Link 3</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>assinatura-uft</span>
+    </mat-toolbar>
+    <div class="content">
+      <form>
+        <mat-form-field class="full-width">
+          <mat-label>Linha principal</mat-label>
+          <input matInput #var1 />
+        </mat-form-field>
+      
+        <p>
+          <mat-form-field class="full-width">
+            <mat-label>Linhas secundárias</mat-label>
+            <textarea matInput #var2 rows="4"></textarea>
+          </mat-form-field>
+        </p>
+      
+        <mat-form-field class="full-width">
+          <mat-label>Endereço institucional</mat-label>
+          <input matInput #var3 value="www.uft.edu.br" />
+          <mat-hint><a href="https://{{var3.value}}" target="_blank">Clique aqui para testar o link</a></mat-hint>
+          <span matTextPrefix>https://</span>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Fone principal</mat-label>
+          <input matInput #teste2 placeholder="Ex. 0000-0000" />
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Fone secundário</mat-label>
+          <input matInput #teste3 placeholder="Ex. 0000-0000" />
+        </mat-form-field>
+      </form>
+
+      <hr />
+      <br />
+
+      <table width="auto" cellspacing="0" cellpadding="4" style="font: small/1.5 Arial,Helvetica,sans-serif;background-color: inherit;">
+          <tbody>
+              <tr>
+                  <td width="121" valign="top" style="border:none;padding:0cm;text-align:center;vertical-align:middle">
+                      <img src="http://docs.uft.edu.br/share/proxy/alfresco-noauth/api/internal/shared/node/CyCn0-KpTCyWT5x_P-qHvQ/content/marcaUFT_vertical_fundotransparente_RGB.png" height="65">
+                  </td>
+                  <td width="auto" style="border-top:none;border-bottom:none;border-left:1px solid rgb(0,0,0);border-right:none;padding:0 0 0 10px">
+                      <b>{{ var1.value }}</b>
+                      <br><span style="white-space: pre-wrap;">{{ var2.value }}</span>
+                      <br><a href="http://{{var3.value}}" style="color:rgb(17,85,204)" target="_blank">{{var3.value}}</a>
+                      <ng-container *ngIf="(teste2.value != '' ? ' | ' + teste2.value : '') as teste4">{{ teste4 }}</ng-container>
+                      <ng-container *ngIf="(teste3.value != '' ? ' | ' + teste3.value : '') as teste5">{{ teste5 }}</ng-container>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
