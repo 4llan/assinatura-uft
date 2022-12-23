@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import {Title} from "@angular/platform-browser";
+import { Title } from "@angular/platform-browser";
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-assinatura',
@@ -20,7 +21,7 @@ export class AssinaturaComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title) {
+  constructor(private breakpointObserver: BreakpointObserver, private titleService: Title, private snackBar: MatSnackBar) {
     this.titleService.setTitle(this.titulo);
   }
 
@@ -32,6 +33,9 @@ export class AssinaturaComponent {
       document.removeEventListener('copy', null!);
     });
     document.execCommand('copy');
+    this.snackBar.open('Assinatura copiada com sucesso', 'OK', {
+      duration: 5000
+    });
   }
 
 }
