@@ -31,7 +31,7 @@
       <span>{{ titulo }}</span>
     </mat-toolbar>
     <div class="content">
-      <form>
+      <form (submit)="false">
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Tipo de assinatura</mat-label>
           <mat-select [(value)]="assinatura_tipo">
@@ -66,13 +66,12 @@
           <mat-label>Telefone secundário</mat-label>
           <input matInput #assinatura_telefoneSecundario placeholder="+55 63 0000-0000" />
         </mat-form-field>
+        
+        <button mat-flat-button class="full-width" color="primary" (click)="copiarAssinatura()">
+          <mat-icon>content_copy</mat-icon>
+          <span>Copiar assinatura</span>
+        </button>
       </form>
-      <button mat-flat-button color="primary" class="full-width" (click)="copiarAssinatura()">
-        <mat-icon>content_copy</mat-icon>
-        <span>Copiar assinatura</span>
-      </button>
-
-      <hr />
 
       <div id="assinatura">
         <br />
