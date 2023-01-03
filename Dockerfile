@@ -1,14 +1,15 @@
-FROM node:lts-slim as build
+# NodeJS
+FROM node:18-slim as build
 
 WORKDIR /usr/src/app
 
-COPY ./package.json .
-COPY ./package-lock.json .
+COPY package*.json ./
 RUN npm install
 
 COPY . .
 RUN npm run build --prod
 
-FROM nginx:alpine
+# nginx
+FROM nginx:1.22-alpine
 COPY --from=build /usr/src/app/dist/assinatura-uft /usr/share/nginx/html
 EXPOSE 80
