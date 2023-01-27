@@ -83,7 +83,9 @@
                     </td>
                     <td width="auto" style="border-top:none;border-bottom:none;border-left:1px solid rgb(0,0,0);border-right:none;padding:0 0 0 10px">
                         <b>{{ assinatura_linhaPrincipal.value }}</b>
-                        <br /><span style="white-space: pre-wrap;">{{ assinatura_linhasSecundarias.value }}</span>
+                        <ng-container *ngFor="let linhaSecundaria of assinatura_linhasSecundarias.value.split('\n')">
+                          <br /><span>{{ linhaSecundaria }}</span>
+                        </ng-container>
                         <br /><a href="https://{{assinatura_endereco.value}}" style="color:rgb(17,85,204)" target="_blank">{{assinatura_endereco.value}}</a>
                         <ng-container *ngIf="assinatura_tipo == 'setorial'"><br /></ng-container>
                         <ng-container *ngIf="(assinatura_telefonePrincipal.value != '' ? (assinatura_tipo != 'setorial' ? ' | ' : '') + assinatura_telefonePrincipal.value : '') as temp_telefonePrincipal">{{ temp_telefonePrincipal }}</ng-container>
